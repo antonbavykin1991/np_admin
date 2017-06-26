@@ -1,10 +1,13 @@
 'use strict';
 /* eslint-env node */
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const nodeSass = require('node-sass');
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
-    // Add options here
+    sassOptions: {
+      nodeSass: nodeSass
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -19,6 +22,29 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
+
+  app.import('vendor/bower_components/animate.css/animate.min.css');
+  app.import('vendor/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css');
+
+  app.import('vendor/bower_components/material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.eot', {
+    destDir: 'fonts'
+  });
+
+  app.import('vendor/bower_components/material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.svg', {
+    destDir: 'fonts'
+  });
+
+  app.import('vendor/bower_components/material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.ttf', {
+    destDir: 'fonts'
+  });
+
+  app.import('vendor/bower_components/material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff', {
+    destDir: 'fonts'
+  });
+
+  app.import('vendor/bower_components/material-design-iconic-font/dist/fonts/Material-Design-Iconic-Font.woff2', {
+    destDir: 'fonts'
+  });
 
   return app.toTree();
 };

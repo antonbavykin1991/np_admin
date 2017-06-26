@@ -4,9 +4,27 @@
 module.exports = function(environment) {
   let ENV = {
     modulePrefix: 'np-admin',
+    podModulePrefix: 'np-admin/z-modules',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
+
+    firebase: {
+      apiKey: "AIzaSyA0rUw-ZRnZusN0L3ScOXlrHhi09Hqz75I",
+      authDomain: "npadmin-81ba8.firebaseapp.com",
+      databaseURL: "https://npadmin-81ba8.firebaseio.com",
+      projectId: "npadmin-81ba8",
+      storageBucket: "npadmin-81ba8.appspot.com",
+      messagingSenderId: "729728249213"
+    },
+
+    torii: {
+      sessionServiceName: 'session'
+    },
+
+    authenticationRoute: 'auth',
+    routeAfterAuthentication: 'index',
+
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
