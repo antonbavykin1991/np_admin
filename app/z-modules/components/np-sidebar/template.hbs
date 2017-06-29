@@ -1,0 +1,34 @@
+<ul class="main-menu">
+  <li class="mm-profile sub-menu">
+    <a href="" data-ma-action="sidebar-close" class="media">
+      <img class="pull-left" src="/img/profile-pics/1.jpg" alt="">
+      <div class="media-body">
+        {{fullName}}
+      </div>
+    </a>
+  </li>
+
+  <li data-ma-action="sidebar-close">
+    {{#link-to 'index'}}
+      <i class="zmdi zmdi-home"></i> Главная
+    {{/link-to}}
+  </li>
+
+  <li data-ma-action="sidebar-close">
+    {{#link-to 'index.products'}}
+      <i class="zmdi zmdi-collection-text"></i> Товары
+    {{/link-to}}
+  </li>
+
+  <li data-ma-action="sidebar-close">
+    {{#link-to 'index.places'}}
+      <i class="zmdi zmdi-collection-text"></i> Столы
+    {{/link-to}}
+  </li>
+
+  <li data-ma-action="sidebar-close">
+    {{#link-to 'index.orders'}}
+      <i class="zmdi zmdi-collection-text"></i> Прибыль
+    {{/link-to}}
+  </li>
+</ul>

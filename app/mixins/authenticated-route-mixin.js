@@ -1,9 +1,7 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
-const { inject: { service }, Mixin, assert, computed } = Ember;
-
-export default Mixin.create({
+export default Ember.Mixin.create({
   session: Ember.inject.service(),
 
   /**
@@ -16,7 +14,7 @@ export default Mixin.create({
     @default 'auth'
     @public
   */
-  authenticationRoute: computed(function() {
+  authenticationRoute: Ember.computed(function() {
     return config.authenticationRoute
   }),
 
@@ -33,7 +31,7 @@ export default Mixin.create({
     if (!this.get('session.isAuthenticated')) {
       let authenticationRoute = this.get('authenticationRoute')
 
-      assert('The route configured as config.authenticationRoute cannot implement the AuthenticatedRouteMixin mixin as that leads to an infinite transitioning loop!', this.get('routeName') !== authenticationRoute)
+      Ember.assert('The route configured as config.authenticationRoute cannot implement the AuthenticatedRouteMixin mixin as that leads to an infinite transitioning loop!', this.get('routeName') !== authenticationRoute)
 
       return this.transitionTo(authenticationRoute)
     } else {

@@ -1,0 +1,34 @@
+<div class="row">
+  {{#each places as |place|}}
+    <div class="col-sm-3">
+      <div class="card">
+        <div class="card-header ch-alt m-b-20 {{if (active-place place.id activePlace) 'bgm-green' }}">
+          <h2>Стол {{place.id}}
+          <small>Кол-во персон: {{place.size}}</small>
+          </h2>
+          <ul class="actions">
+            <li>
+              <a href="">
+                <i class="zmdi zmdi-refresh-alt"></i>
+              </a>
+            </li>
+          </ul>
+          {{#link-to 'index.places.order' place.id class="btn bgm-white btn-float waves-effect waves-circle waves-float"}}
+            <i class="zmdi zmdi-plus"></i>
+          {{/link-to}}
+        </div>
+        <div class="card-body card-padding">
+          <p><i class="zmdi zmdi-gamepad"></i> <span>Playstatin: {{place.ps}}</span></p>
+        </div>
+        <div class="mini-charts-item">
+          <div class="clearfix">
+            <div class="count">
+              <small>Сумма заказа</small>
+              <h2>{{place.totalPrice}} грн</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>

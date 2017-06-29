@@ -1,6 +1,21 @@
 /* eslint-env node */
-const { app, BrowserWindow, protocol } = require('electron');
+var express = require('express');
+var http = require('http');
 const { dirname, join, resolve } = require('path');
+
+var appServer = express();
+appServer.use(express.static(join(__dirname || resolve(dirname('')), '..', 'ember')));
+
+appServer.get('*', (req, res) => {
+  res.sendFile(join(__dirname || resolve(dirname('')), '..', 'ember') + 'index.html');
+});
+
+http.createServer(appServer).listen(3007, function() {
+  console.log('Express server listening on port');
+});
+
+
+const { app, BrowserWindow, protocol } = require('electron');
 const protocolServe = require('electron-protocol-serve');
 
 let mainWindow = null;
@@ -8,12 +23,12 @@ let mainWindow = null;
 require('electron-debug')({showDevTools: true});
 
 // Registering a protocol & schema to serve our Ember application
-protocol.registerStandardSchemes(['serve'], { secure: true });
-protocolServe({
-  cwd: join(__dirname || resolve(dirname('')), '..', 'ember'),
-  app,
-  protocol,
-});
+// protocol.registerStandardSchemes(['serve'], { secure: true });
+// protocolServe({
+//   cwd: join(__dirname || resolve(dirname('')), '..', 'ember'),
+//   app,
+//   protocol,
+// });
 
 // Uncomment the lines below to enable Electron's crash reporter
 // For more information, see http://electron.atom.io/docs/api/crash-reporter/
@@ -36,14 +51,13 @@ app.on('ready', () => {
     height: 600,
   });
 
-
   // If you want to open up dev tools programmatically, call
   // mainWindow.openDevTools();
 
   const emberAppLocation = 'serve://dist';
 
   // Load the ember application using our custom protocol/scheme
-  mainWindow.loadURL(emberAppLocation);
+  mainWindow.loadURL('http://localhost:3007');
 
   // If a loading operation goes wrong, we'll send Electron back to
   // Ember App entry point

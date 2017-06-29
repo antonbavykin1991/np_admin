@@ -1,0 +1,86 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="table-responsive">
+        <table id="data-table-basic" class="table table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Название</th>
+              <th>Скидка</th>
+              <th>Кол-во</th>
+              <th>Цена за 1шт</th>
+              <th>Общая цена</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each place.productRequests as |productRequest number|}}
+              <tr>
+                <td>{{number}}</td>
+                <td>{{productRequest.name}}</td>
+                <td>{{productRequest.discount}}</td>
+                <td>
+                  <a href="" {{action 'changeQuantity' productRequest false}}>
+                    <i class="zmdi zmdi-minus-circle"></i>
+                  </a>
+                  {{productRequest.quantity}}
+                  <a href="" {{action 'changeQuantity' productRequest true}}>
+                    <i class="zmdi zmdi-plus-circle"></i>
+                   </a>
+                </td>
+                <td>{{productRequest.price}}</td>
+                <td>{{productRequest.totalPrice}}</td>
+                <td>
+                  <button {{action 'changeDiscount' productRequest}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+                    <span class="zmdi zmdi-exposure-alt"></span>
+                  </button>
+
+                  <button {{action 'deleteProductRequest' productRequest.id place}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+                    <span class="zmdi zmdi-delete"></span>
+                  </button>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="7" class="text-right">
+                <button {{action 'changeDiscountForAllProductRequests' place}} class="btn bgm-teal waves-effect">Добавить скидку</button>
+                <button {{action 'archiveProductsRequests' place}} class="btn bgm-blue waves-effect">Оплатить</button>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="table-responsive">
+        <table id="data-table-basic" class="table table-striped">
+          <thead>
+            <tr>
+              <th>Название</th>
+              <th>Цена</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each products as |product number|}}
+              <tr>
+                <td>{{product.name}}</td>
+                <td>{{product.price}}</td>
+                <td>
+                  <button {{action 'addProductToOrder' place product}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+                    <span class="zmdi zmdi-plus-circle"></span>
+                  </button>
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
