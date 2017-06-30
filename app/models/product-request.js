@@ -53,8 +53,10 @@ export default DS.Model.extend({
     const data = this.toJSON()
 
     const productRequest = this.store.createRecord('product-request', data)
+    const product = this.get('product')
 
     productRequest.set('createdAt', new Date(data.createdAt))
+    productRequest.set('product', product)
 
     return productRequest.save()
   },
