@@ -7,6 +7,8 @@ import RSVP from 'rsvp';
 export default DS.Model.extend({
   product: DS.belongsTo('product'),
 
+  user: DS.belongsTo('user'),
+
   price: attr('number'),
 
   name: attr('string'),
@@ -19,10 +21,20 @@ export default DS.Model.extend({
     defaultValue: 0
   }),
 
-  createdAt: attr('date'),
+  createdAt: attr('date', {
+    defaultValue() {
+      return new Date()
+    }
+  }),
 
   status: attr('number', {
     defaultValue: 0
+  }),
+
+  time: Ember.computed('createdAt', function () {
+    const createdAt = this.get('createdAt')
+
+    return moment(createdAt).format('HH-mm')
   }),
 
   isPaid: Ember.computed.equal('status', 1),
@@ -54,9 +66,11 @@ export default DS.Model.extend({
 
     const productRequest = this.store.createRecord('product-request', data)
     const product = this.get('product')
+    const user = this.get('user')
 
     productRequest.set('createdAt', new Date(data.createdAt))
     productRequest.set('product', product)
+    productRequest.set('user', user)
 
     return productRequest.save()
   },

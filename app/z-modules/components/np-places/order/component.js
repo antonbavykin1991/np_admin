@@ -59,7 +59,7 @@ export default Ember.Component.extend({
     },
 
     changeDiscountForAllProductRequests(place) {
-       swal({
+      swal({
         title: "Discount form",
         text: "Change discount:",
         type: "input",

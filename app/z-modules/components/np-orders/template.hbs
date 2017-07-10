@@ -1,34 +1,142 @@
 <div class="row">
   <div class="col-md-8">
     <div class="card">
-      <div class="table-responsive">
-        <table id="data-table-basic" class="table table-striped">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Название</th>
-              <th>isPaid</th>
-              <th>Скидка</th>
-              <th>Кол-во</th>
-              <th>Цена за 1шт</th>
-              <th>Общая цена</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each orders as |productRequest number|}}
-              <tr>
-                <td>{{number}}</td>
-                <td>{{productRequest.name}}</td>
-                <td>{{productRequest.isPaid}}</td>
-                <td>{{productRequest.discount}}</td>
-                <td>{{productRequest.quantity}}</td>
-                <td>{{productRequest.price}}</td>
-                <td>{{productRequest.totalPrice}}</td>
-              </tr>
-            {{/each}}
-          </tbody>
-        </table>
+      <div class="card-body card-padding">
+        <form role="form">
+          <div class="form-group fg-line">
+            <label>Период от:</label>
+            <div class="dtp-container fg-line">
+              {{pikaday-input
+              value=startAt
+              onSelection=(action onSelection 'startAt')
+              format="MM/DD/YYYY"
+              class="form-control input-sm"
+              }}
+            </div>
+          </div>
+          <div class="form-group fg-line">
+            <label>Период до:</label>
+            <div class="dtp-container fg-line">
+              {{pikaday-input
+              value=endAt
+              onSelection=(action onSelection 'endAt')
+              format="MM/DD/YYYY"
+              class="form-control input-sm"
+              }}
+            </div>
+          </div>
+          <div class="form-group fg-line">
+            <div class="dtp-container fg-line">
+              <div class="toggle-switch toggle-switch-demo" data-ts-color="green">
+                <label for="ts4" class="ts-label">Оплачен:</label>
+                {{input type="checkbox" id="ts4" hidden="hidden" checked=isPaid}}
+                <label for="ts4" class="ts-helper"></label>
+              </div>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
+<div class="card">
+  <div class="action-header clearfix">
+    <div class="ah-label hidden-xs">Some text here</div>
+    <div class="ah-search">
+      <input type="text" placeholder="Start typing..." class="ahs-input">
+      <i class="ahs-close" data-ma-action="action-header-close">&times;</i>
+    </div>
+    <ul class="actions">
+      <li>
+        <a href="" data-ma-action="action-header-open">
+          <i class="zmdi zmdi-search"></i>
+        </a>
+      </li>
+      <li>
+        <a href="">
+          <i class="zmdi zmdi-time"></i>
+        </a>
+      </li>
+      <li class="dropdown">
+        <a href="" data-toggle="dropdown" aria-expanded="true">
+          <i class="zmdi zmdi-sort"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <li>
+            <a href="">Last Modified</a>
+          </li>
+          <li>
+            <a href="">Last Edited</a>
+          </li>
+          <li>
+            <a href="">Name</a>
+          </li>
+          <li>
+            <a href="">Date</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="">
+          <i class="zmdi zmdi-info"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body card-padding">
+    {{#each groupedOrders as |groupedOrder|}}
+      <div class="p-timeline">
+        <div class="pt-line text-right">
+          {{groupedOrder.key}}
+        </div>
+        <div class="pt-body">
+          <div class="table-responsive" style="padding-left: 30px">
+            <table id="data-table-basic" class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Время</th>
+                  <th>Название</th>
+                  <th>isPaid</th>
+                  <th>Пользователь</th>
+                  <th>Скидка</th>
+                  <th>Кол-во</th>
+                  <th>Цена за 1шт</th>
+                  <th>Общая цена</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each groupedOrder.value as |productRequest number|}}
+                <tr>
+                  <td>{{productRequest.time}}</td>
+                  <td>{{productRequest.name}}</td>
+                  <td>{{productRequest.isPaid}}</td>
+                  <td>{{productRequest.user.fullName}}</td>
+                  <td>{{productRequest.discount}}</td>
+                  <td>{{productRequest.quantity}}</td>
+                  <td>{{productRequest.price}}</td>
+                  <td>{{productRequest.totalPrice}}</td>
+                </tr>
+                {{/each}}
+              </tbody>
+              <tfoot>
+              <tr class="success c-white">
+                <td colspan="7" class="text-right">
+                  Общая сумма:
+                </td>
+                <td>
+                  {{product-total-price groupedOrder.value}}
+                </td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+
+
+

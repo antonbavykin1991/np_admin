@@ -1,9 +1,17 @@
-{{np-product/create
-    productId=editableProduct.id
-    name=editableProduct.name
-    price=editableProduct.price
-    code=editableProduct.code
-    tags=editableProduct.tags
+{{np-form params=(hash
+    name='Name'
+    price='Price'
+    code='Code'
+    tags='Tags'
+  )
+
+  entityModelName='product'
+
+  entityId=editableProduct.id
+  name=editableProduct.name
+  price=editableProduct.price
+  code=editableProduct.code
+  tags=editableProduct.tags
 }}
 
 <div class="card">

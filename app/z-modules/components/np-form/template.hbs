@@ -1,0 +1,54 @@
+<div class="card">
+  <div class="card-body card-padding">
+    <form role="form" {{action create on="submit"}}>
+
+      {{#each-in params as |key value|}}
+        <div class="form-group fg-line">
+          {{#if value.title}}
+            <label for="{{value.id}}">{{value.title}}</label>
+          {{else}}
+            <label>{{value}}</label>
+          {{/if}}
+
+          {{#if value.isDate}}
+            <div class="dtp-container fg-line">
+              {{pikaday-input
+                  value=(get this key)
+                  onSelection=(action onSelection key)
+                  format="MM/DD/YYYY"
+                  class="form-control input-sm"
+              }}
+            </div>
+          {{else if value.isSelect}}
+            {{ember-chosen
+                placeholder="Select Something..."
+                allowSingleDeselect=true
+                optionValuePath="id"
+                optionLabelPath="name"
+                content=value.data
+                value=(get this key)
+            }}
+          {{else}}
+            {{input
+                type="text"
+                value=(get this key)
+                class="form-control input-sm"
+            }}
+          {{/if}}
+        </div>
+      {{/each-in}}
+
+      <button type="submit" class="btn btn-default btn-sm m-t-10 waves-effect">
+        {{#if entityId}}
+          Сохранить
+        {{else}}
+          Добавить
+        {{/if}}
+      </button>
+
+      {{#if entityId}}
+        <button {{action clearForm on="click"}} class="btn btn-default btn-sm m-t-10 waves-effect">Отмена</button>
+      {{/if}}
+    </form>
+  </div>
+</div>

@@ -46,6 +46,8 @@ module.exports = function(defaults) {
     destDir: 'fonts'
   });
 
+  app.import('vendor/bower_components/moment/min/moment.min.js');
+
   app.import('vendor/bower_components/sweetalert/dist/sweetalert.css');
   app.import('vendor/bower_components/sweetalert/dist/sweetalert.min.js');
 

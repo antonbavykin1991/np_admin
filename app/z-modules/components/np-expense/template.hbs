@@ -1,0 +1,70 @@
+{{np-form params=(hash
+    name='Название'
+
+    description='Описание'
+
+    price='Цена за 1шт'
+
+    createdAt=(hash
+      title='Дата оплаты'
+      isDate=true
+    )
+
+    quantity='Количество'
+
+    product=(hash
+      title='Товар'
+      isSelect=true
+      data=products
+    )
+  )
+
+  entityModelName='expense'
+
+  entityId=editableExpense.id
+  name=editableExpense.name
+  description=editableExpense.description
+  price=editableExpense.price
+  product=editableExpense.productId
+  createdAt=editableExpense.createdAt
+  quantity=editableExpense.quantity
+
+  onSave=(action onSave)
+}}
+
+<div class="card">
+  <div class="table-responsive">
+    <table id="data-table-basic" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Название</th>
+          <th>Описание</th>
+          <th>Кол-во</th>
+          <th>Цена за 1шт</th>
+          <th>Общая цена</th>
+          <th>Ред.</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each expenses as |expense number|}}
+        <tr>
+          <td>{{expense.name}}</td>
+          <td>{{expense.description}}</td>
+          <td>{{expense.quantity}}</td>
+          <td>{{expense.price}}</td>
+          <td>{{expense.totalPrice}}</td>
+          <td>
+            <button {{action 'editExpense' expense}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+              <span class="zmdi zmdi-edit"></span>
+            </button>
+
+            <button {{action 'deleteExpense' expense}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+              <span class="zmdi zmdi-delete"></span>
+            </button>
+          </td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</div>

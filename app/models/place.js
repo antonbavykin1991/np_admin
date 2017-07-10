@@ -3,7 +3,11 @@ import DS from 'ember-data';
 import RSVP from 'rsvp';
 import attr from 'ember-data/attr';
 
+import {productTotalPrice} from 'np-admin/helpers/product-total-price';
+
 export default DS.Model.extend({
+  visitorSession: Ember.inject.service(),
+
   productRequests: DS.hasMany('product-request'),
 
   ps: attr('boolean'),
@@ -17,17 +21,7 @@ export default DS.Model.extend({
   isActive: Ember.computed.equal('status', 1),
 
   totalPrice: Ember.computed('productRequests.@each.totalPrice', function() {
-    let price = 0
-
-    this.get('productRequests').toArray().forEach((productRequest) => {
-      const totalPrice = productRequest.get('totalPrice')
-
-      if (totalPrice) {
-        price += totalPrice
-      }
-    });
-
-    return price
+    return productTotalPrice([this.get('productRequests')])
   }),
 
   checkExistsProduct(product) {
@@ -37,9 +31,11 @@ export default DS.Model.extend({
   createProductRequest(product) {
     const data = product.getProperties('name', 'price')
     const productRequest = this.get('store').createRecord('product-request', data)
+    const currentVisitor = this.get('visitorSession.model')
 
     productRequest.set('createdAt', new Date())
     productRequest.set('product', product)
+    productRequest.set('user', currentVisitor)
 
     productRequest.save().then(() => {
       this.get('productRequests').addObject(productRequest)
