@@ -1,6 +1,8 @@
 {{np-header}}
 <section id="main">
-  {{np-sidebar}}
+  {{#np-sidebar hasYieldClassName=hasYieldClassName}}
+    {{outlet 'sidebar'}}
+  {{/np-sidebar}}
 
   <section id="content">
     <div class="container">

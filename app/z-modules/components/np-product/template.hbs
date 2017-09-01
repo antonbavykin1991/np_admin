@@ -1,8 +1,15 @@
 {{np-form params=(hash
-    name='Name'
-    price='Price'
-    code='Code'
-    tags='Tags'
+    name='Имя'
+    price='Цена'
+
+    category=(hash
+      title='Категории'
+      isSelect=true
+      data=categories
+    )
+
+    code='Код'
+    tags='Теги'
   )
 
   entityModelName='product'
@@ -12,6 +19,9 @@
   price=editableProduct.price
   code=editableProduct.code
   tags=editableProduct.tags
+  category=editableProduct.categoryId
+
+  onSave=(action onSave)
 }}
 
 <div class="card">
@@ -19,28 +29,30 @@
     <table id="data-table-basic" class="table table-striped">
       <thead>
         <tr>
-          <th data-column-id="id" data-type="numeric">ID</th>
-          <th data-column-id="sender">Name</th>
-          <th data-column-id="received" data-order="desc">Price</th>
-          <th data-column-id="edit" data-order="desc">Edit</th>
+          <th>Имя</th>
+          <th>Цена</th>
+          <th>Категория</th>
+          <th>Теги</th>
+          <th>Редактирование</th>
         </tr>
       </thead>
       <tbody>
         {{#each products as |product number|}}
-        <tr>
-          <td>{{number}}</td>
-          <td>{{product.name}}</td>
-          <td>{{product.price}}</td>
-          <td>
-            <button {{action 'editProduct' product}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
-              <span class="zmdi zmdi-edit"></span>
-            </button>
+          <tr>
+            <td>{{product.name}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.category.name}}</td>
+            <td>{{product.tags}}</td>
+            <td>
+              <button {{action 'editProduct' product}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+                <span class="zmdi zmdi-edit"></span>
+              </button>
 
-            <button {{action 'deleteProduct' product}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
-              <span class="zmdi zmdi-delete"></span>
-            </button>
-          </td>
-        </tr>
+              <button {{action 'deleteProduct' product}} type="button" class="btn btn-icon command-edit waves-effect waves-circle">
+                <span class="zmdi zmdi-delete"></span>
+              </button>
+            </td>
+          </tr>
         {{/each}}
       </tbody>
     </table>

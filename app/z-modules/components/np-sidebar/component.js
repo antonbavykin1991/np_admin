@@ -4,10 +4,15 @@ const {$} = Ember;
 
 export default Ember.Component.extend({
   visitorSession: Ember.inject.service(),
+  sidebar: Ember.inject.service(),
 
   tagName: 'aside',
   elementId: 'sidebar',
   classNames: ['sidebar', 'c-overflow'],
+
+  yieldClassName:  Ember.computed('sidebar.hasYieldClassName', function () {
+    return this.get('sidebar.hasYieldClassName') ? 'sidebar-container--has-yield' : '';
+  }),
 
   fullName: Ember.computed.reads('visitorSession.model.fullName'),
 

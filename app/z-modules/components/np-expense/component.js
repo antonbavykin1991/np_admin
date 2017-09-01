@@ -10,15 +10,13 @@ export default Ember.Component.extend({
   }),
 
   onSave ({data, entityModelName, keys}) {
-    console.log(data, entityModelName, keys);
-
     let entity = null
 
     if (data.entityId) {
-      entity = this.get('store').peekRecord(entityModelName, data.entityId);
-      entity.setProperties(data);
+      entity = this.get('store').peekRecord(entityModelName, data.entityId)
+      entity.setProperties(data)
     } else {
-      entity = this.get('store').createRecord(entityModelName, data);
+      entity = this.get('store').createRecord(entityModelName, data)
     }
 
     if (data.product) {

@@ -41,11 +41,26 @@ export default DS.Model.extend({
 
   inPlace: Ember.computed.equal('status', 0),
 
+  // paid, visa, masterCard
+  cardType: attr('string', {
+    defaultValue: 'paid'
+  }),
+
+  cashOnly: Ember.computed('cardType', function () {
+    return this.get('cardType') != 'visa' && this.get('cardType') !='masterCard'
+  }),
+
   totalPrice: Ember.computed('price', 'quantity', 'discount', function () {
     const discount = this.get('discount') / 100;
     const totalPrice = this.get('price') * this.get('quantity');
 
     return totalPrice - (totalPrice * discount);
+  }),
+
+  hookahPrice: Ember.computed('totalPrice', function () {
+    const totalPrice = this.get('totalPrice');
+
+    return totalPrice * 0.15;
   }),
 
   changeQuantity(increment) {
@@ -79,6 +94,10 @@ export default DS.Model.extend({
     this.set('discount', discount)
 
     return this.save()
+  },
+
+  changeCardType(productRequest, cardType) {
+    return productRequest.save();
   },
 
   archive() {

@@ -1,14 +1,42 @@
 import Ember from 'ember';
 let swal = window.swal;
 
+
 export default Ember.Component.extend({
   store: Ember.inject.service(),
 
-  actions: {
-    addProductToOrder(place, product) {
-      place.createProductRequest(product)
-    },
+  printThisOptions: {
+    importStyle: true
+  },
 
+  product: Ember.computed('productId', function () {
+    const productId = this.get('productId')
+
+    return this.get('store').peekRecord('product', productId);
+  }),
+
+  user: Ember.computed('userId', function() {
+    const userId = this.get('userId')
+
+    return this.get('store').peekRecord('user', userId);
+  }),
+
+  isHookah: Ember.computed.reads('product.isHookah'),
+
+  addProductToOrder(place, product, user) {
+    if (!place || !product) { return }
+
+    place.createProductRequest(product, user)
+
+    this.clearForm()
+  },
+
+  clearForm () {
+    this.set('productId', null)
+    this.set('userId', null)
+  },
+
+  actions: {
     deleteProductRequest(productRequestId, place) {
       swal({
         title: "Are you sure?",
@@ -101,6 +129,9 @@ export default Ember.Component.extend({
           swal("Cancelled", "Cancelled by you", "error")
         }
       })
+    },
+
+    print () {
     }
   }
 });

@@ -1,2 +1,19 @@
 @import "app_1";
 @import "app_2";
+
+.sidebar-container {
+  width: 200%;
+  overflow: hidden;
+  transition: transform 0.2s;
+
+  &--has-yield {
+    transform: translateX(-50%);
+  }
+
+  .sidebar-menu,
+  .other-menu {
+    width: 50%;
+    float: left;
+  }
+
+}

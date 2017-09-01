@@ -7,6 +7,9 @@ export default Ember.Route.extend({
     return RSVP.hash({
       place: this.store.peekRecord('place', place_id),
       products: this.store.findAll('product'),
+      users: this.store.findAll('user', {reload: true}).then((users) => {
+        return users.filterBy('isHookah', true)
+      })
     })
   },
 

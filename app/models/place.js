@@ -28,10 +28,12 @@ export default DS.Model.extend({
     return this.get('productRequests').findBy('product.id', product.get('id'))
   },
 
-  createProductRequest(product) {
+  createProductRequest(product, user) {
     const data = product.getProperties('name', 'price')
     const productRequest = this.get('store').createRecord('product-request', data)
-    const currentVisitor = this.get('visitorSession.model')
+    const currentVisitor = user || this.get('visitorSession.model')
+
+    console.log(currentVisitor);
 
     productRequest.set('createdAt', new Date())
     productRequest.set('product', product)

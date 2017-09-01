@@ -3,6 +3,8 @@ import DS from 'ember-data';
 import attr from 'ember-data/attr';
 
 export default DS.Model.extend({
+  category: DS.belongsTo('category'),
+
   name: attr('string'),
 
   price: attr('number', {
@@ -13,5 +15,7 @@ export default DS.Model.extend({
 
   tags: attr('string', {
     defaultValue: ''
-  })
+  }),
+
+  isHookah: Ember.computed.equal('category.name', 'Кальян')
 });

@@ -1,5 +1,7 @@
-{{#link-to 'index.orders.expenses'}}
-  Затраты
-{{/link-to}}
-
-{{np-orders}}
+{{np-orders
+    showPaymentFilters=false
+    showUserFilter=model.hasPermissionsForCheckUserSalary
+    userId=model.userId
+    users=model.users
+    showHookahSalary=true
+}}

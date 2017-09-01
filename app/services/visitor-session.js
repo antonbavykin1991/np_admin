@@ -19,6 +19,8 @@ export default Ember.Service.extend({
       provider: 'password',
       email,
       password
+    }).then((session) => {
+      return this.getCurrentUser()
     }).then(() => {
       this.get('routing').transitionTo(config.routeAfterAuthentication)
     }, (error) => {

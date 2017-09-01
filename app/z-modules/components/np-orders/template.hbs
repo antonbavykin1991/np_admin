@@ -3,14 +3,27 @@
     <div class="card">
       <div class="card-body card-padding">
         <form role="form">
+          {{#if showUserFilter}}
+            <div class="form-group fg-line">
+              <label>Пользователь:</label>
+              {{ember-chosen
+                  placeholder="Выберите Пользователя"
+                  allowSingleDeselect=true
+                  optionValuePath="id"
+                  optionLabelPath="fullName"
+                  content=users
+                  value=userId
+              }}
+            </div>
+          {{/if}}
           <div class="form-group fg-line">
             <label>Период от:</label>
             <div class="dtp-container fg-line">
               {{pikaday-input
-              value=startAt
-              onSelection=(action onSelection 'startAt')
-              format="MM/DD/YYYY"
-              class="form-control input-sm"
+                value=startAt
+                onSelection=(action onSelection 'startAt')
+                format="DD/MM/YYYY"
+                class="form-control input-sm"
               }}
             </div>
           </div>
@@ -18,24 +31,43 @@
             <label>Период до:</label>
             <div class="dtp-container fg-line">
               {{pikaday-input
-              value=endAt
-              onSelection=(action onSelection 'endAt')
-              format="MM/DD/YYYY"
-              class="form-control input-sm"
+                value=endAt
+                onSelection=(action onSelection 'endAt')
+                format="DD/MM/YYYY"
+                class="form-control input-sm"
               }}
             </div>
           </div>
-          <div class="form-group fg-line">
-            <div class="dtp-container fg-line">
-              <div class="toggle-switch toggle-switch-demo" data-ts-color="green">
-                <label for="ts4" class="ts-label">Оплачен:</label>
-                {{input type="checkbox" id="ts4" hidden="hidden" checked=isPaid}}
-                <label for="ts4" class="ts-helper"></label>
+          {{#if showPaymentFilters}}
+            <div class="form-group fg-line">
+              <div class="dtp-container fg-line">
+                <div class="toggle-switch toggle-switch-demo" data-ts-color="green">
+                  <label for="ts4" class="ts-label">Оплачен:</label>
+                  {{input type="checkbox" id="ts4" hidden="hidden" checked=isPaid}}
+                  <label for="ts4" class="ts-helper"></label>
+                </div>
               </div>
             </div>
-          </div>
+            <div class="form-group fg-line">
+              <div class="dtp-container fg-line">
+                <div class="toggle-switch toggle-switch-demo" data-ts-color="green">
+                  <label for="ts4" class="ts-label">Только наличными:</label>
+                  {{input type="checkbox" id="ts5" hidden="hidden" checked=cashOnly}}
+                  <label for="ts4" class="ts-helper"></label>
+                </div>
+              </div>
+            </div>
+          {{/if}}
         </form>
       </div>
+    </div>
+  </div>
+</div>
+
+<div class="mini-charts">
+  <div class="row">
+    <div class="col-sm-6 col-md-3">
+      Общая сумма: {{product-total-price filteredOrders totalPriceKey}}
     </div>
   </div>
 </div>
@@ -92,44 +124,50 @@
         </div>
         <div class="pt-body">
           <div class="table-responsive" style="padding-left: 30px">
-            <table id="data-table-basic" class="table table-striped">
+            {{#np-table as |table|}}
               <thead>
                 <tr>
                   <th>Время</th>
                   <th>Название</th>
                   <th>isPaid</th>
                   <th>Пользователь</th>
+                  <th>Способ оплаты</th>
                   <th>Скидка</th>
-                  <th>Кол-во</th>
-                  <th>Цена за 1шт</th>
+                  <th>Цена без скидки</th>
                   <th>Общая цена</th>
+                  {{#if showHookahSalary}}
+                    <th>Прибыль</th>
+                  {{/if}}
                 </tr>
               </thead>
               <tbody>
                 {{#each groupedOrder.value as |productRequest number|}}
-                <tr>
-                  <td>{{productRequest.time}}</td>
-                  <td>{{productRequest.name}}</td>
-                  <td>{{productRequest.isPaid}}</td>
-                  <td>{{productRequest.user.fullName}}</td>
-                  <td>{{productRequest.discount}}</td>
-                  <td>{{productRequest.quantity}}</td>
-                  <td>{{productRequest.price}}</td>
-                  <td>{{productRequest.totalPrice}}</td>
-                </tr>
+                  <tr>
+                    <td>{{productRequest.time}}</td>
+                    <td>{{productRequest.name}}</td>
+                    <td>{{productRequest.isPaid}}</td>
+                    <td>{{productRequest.user.fullName}}</td>
+                    <td>{{productRequest.cardType}}</td>
+                    <td>{{productRequest.discount}}</td>
+                    <td>{{productRequest.price}}</td>
+                    <td>{{productRequest.totalPrice}}</td>
+                    {{#if showHookahSalary}}
+                      <td>{{productRequest.hookahPrice}}</td>
+                    {{/if}}
+                  </tr>
                 {{/each}}
               </tbody>
               <tfoot>
-              <tr class="success c-white">
-                <td colspan="7" class="text-right">
-                  Общая сумма:
-                </td>
-                <td>
-                  {{product-total-price groupedOrder.value}}
-                </td>
-              </tr>
+                <tr class="success c-white">
+                  <td colspan="{{colspan}}" class="text-right">
+                    Общая сумма:
+                  </td>
+                  <td style="width:50px">
+                    {{product-total-price groupedOrder.value totalPriceKey}}
+                  </td>
+                </tr>
               </tfoot>
-            </table>
+            {{/np-table}}
           </div>
         </div>
       </div>

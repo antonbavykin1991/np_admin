@@ -13,10 +13,13 @@ Router.map(function() {
     this.route('products');
     this.route('categories');
     this.route('places', function() {
-      this.route('order', {path: '/:place_id'});
+      this.route('order', {path: '/:place_id'}, function() {
+        this.route('print');
+      });
     });
     this.route('orders', function() {
       this.route('expenses');
+      this.route('profit');
     });
   });
 });

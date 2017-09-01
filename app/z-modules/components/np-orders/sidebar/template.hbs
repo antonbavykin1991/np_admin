@@ -1,0 +1,31 @@
+<div>
+  <ul class="main-menu">
+    <li data-ma-action="sidebar-close">
+      {{#link-to 'index'}}
+        <i class="zmdi zmdi-arrow-back"></i> Назад
+      {{/link-to}}
+    </li>
+
+    <li data-ma-action="sidebar-close">
+      {{#link-to 'index.orders.index'}}
+        <i class="zmdi zmdi-home"></i> ЗПшчка
+      {{/link-to}}
+    </li>
+
+    {{#if hasPermissionsForProfit}}
+      <li data-ma-action="sidebar-close">
+        {{#link-to 'index.orders.profit'}}
+          <i class="zmdi zmdi-collection-text"></i> Профит
+        {{/link-to}}
+      </li>
+    {{/if}}
+
+    {{#if hasPermissionsForExpenses}}
+      <li data-ma-action="sidebar-close">
+        {{#link-to 'index.orders.expenses'}}
+          <i class="zmdi zmdi-collection-text"></i> Затраты
+        {{/link-to}}
+      </li>
+    {{/if}}
+  </ul>
+</div>

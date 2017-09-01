@@ -1,0 +1,30 @@
+<div class="card">
+  <div class="card-body card-padding">
+    <div class="row">
+      <div class="col-md-4">
+        {{#link-to 'index' class="btn btn-default waves-effect"}}
+          <i class="zmdi zmdi-arrow-back"></i>
+        {{/link-to}}
+      </div>
+      <div class="col-md-8 text-right" style="padding-top: 5px;">
+        Общая сумма: {{totalPrice}} грн
+      </div>
+    </div>
+  </div>
+  <div class="card-body m-t-0">
+      <table class="table table-inner table-vmiddle">
+        <tbody>
+          {{#each places as |place|}}
+            <tr {{action goToPlace place.id}}>
+              <td class="{{if (active-place place.id activePlace) 'success c-white'}}">
+                <div>
+                  <span>Стол: {{place.id}}</span>
+                  <span class="pull-right">{{place.totalPrice}} грн</span>
+                </div>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+  </div>
+</div>

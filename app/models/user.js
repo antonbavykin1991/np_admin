@@ -3,7 +3,7 @@ import DS from 'ember-data';
 import attr from 'ember-data/attr';
 
 export default DS.Model.extend({
-  role: attr('number'),
+  role: attr(),
 
   firstName: attr('string'),
 
@@ -13,5 +13,19 @@ export default DS.Model.extend({
     return `${this.get('firstName')} ${this.get('lastName')}`
   }),
 
-  isAdmin: Ember.computed.equal('role', 99)
+  isAdmin: Ember.computed.bool('role.admin'),
+
+  isHookah: Ember.computed.bool('role.hookah'),
+
+  isBarman: Ember.computed.bool('role.barman'),
+
+  isMain: Ember.computed.bool('role.main'),
+
+  isWaiter: Ember.computed.bool('role.waiter'),
+
+  hasPermissionsForProfit: Ember.computed.or('isMain', 'isWaiter'),
+
+  hasPermissionsForExpenses: Ember.computed.or('isMain', 'isWaiter'),
+
+  hasPermissionsForCheckUserSalary: Ember.computed.or('isMain', 'isWaiter')
 });
